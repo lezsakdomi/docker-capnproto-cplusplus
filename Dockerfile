@@ -1,4 +1,4 @@
-from alpine:latest
+FROM alpine:latest
 RUN apk add --no-cache curl
 RUN apk add --no-cache g++
 RUN apk add --no-cache make
