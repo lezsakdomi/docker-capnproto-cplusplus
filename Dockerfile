@@ -4,34 +4,34 @@ RUN apk add --no-cache g++
 RUN apk add --no-cache make
 RUN apk add --no-cache linux-headers
 
-ENV CAPNPROTO_DL_DIR="/tmp/capnproto"
-ENV CAPNPROTO_DL_FORMAT="tar.gz"
-#ARG CAPNPROTO_REPO="capnproto/capnproto"
-#ARG CAPNPROTO_REF="master"
-#ARG CAPNPROTO_URL="https://codeload.github.com/$CAPNPROTO_REPO/$CAPNPROTO_DL_FORMAT/$CAPNPROTO_REF"
-ARG CAPNPROTO_VERSION="0.6.1"
-ARG CAPNPROTO_URL="https://capnproto.org/capnproto-c++-$CAPNPROTO_VERSION.$CAPNPROTO_DL_FORMAT"
-ARG CAPNPROTO_MAKEFLAGS=""
-RUN echo "Downloading Cap'n Proto form $CAPNPROTO_URL ..."; \
-	mkdir -p "$CAPNPROTO_DL_DIR" \
-	&& curl "$CAPNPROTO_URL" \
-	| tar -xz -C "$CAPNPROTO_DL_DIR"
-ARG CAPNPROTO_CONFIGURE_FLAGS=""
-ARG CAPNPROTO_CONFIGURE_CMD="./configure \$CAPNPROTO_CONFIGURE_FLAGS"
-RUN echo "Configuring Cap'n Proto source ($CAPNPROTO_CONFIGURE_CMD)..." \
-	&& cd "$CAPNPROTO_DL_DIR" && if [ `ls | wc -l` == 1 ]; then cd `ls`; fi \
-	&& eval "$CAPNPROTO_CONFIGURE_CMD"
-ARG CAPNPROTO_BUILD_FLAGS="-j6"
-ARG CAPNPROTO_BUILD_TARGET="check"
-ARG CAPNPROTO_BUILD_CMD="make \$CAPNPROTO_BUILD_FLAGS \$CAPNPROTO_BUILD_TARGET"
-RUN echo "Building Cap'n Proto ($CAPNPROTO_BUILD_CMD)..." \
-	&& cd "$CAPNPROTO_DL_DIR" && if [ `ls | wc -l` == 1 ]; then cd `ls`; fi \
-	&& eval "$CAPNPROTO_BUILD_CMD"
-ARG CAPNPROTO_INSTALL_FLAGS=""
-ARG CAPNPROTO_INSTALL_TARGET="install"
-ARG CAPNPROTO_INSTALL_CMD="make \$CAPNPROTO_INSTALL_FLAGS \$CAPNPROTO_INSTALL_TARGET"
-RUN echo "Installing Cap'n Proto ($CAPNPROTO_INSTALL_CMD)..." \
-	&& cd "$CAPNPROTO_DL_DIR" && if [ `ls | wc -l` == 1 ]; then cd `ls`; fi \
-	&& eval "$CAPNPROTO_INSTALL_CMD"
+ENV DL_DIR="/tmp/capnproto"
+ENV DL_FORMAT="tar.gz"
+#ARG REPO="capnproto/capnproto"
+#ARG REF="master"
+#ARG URL="https://codeload.github.com/$REPO/$DL_FORMAT/$REF"
+ARG VERSION="0.6.1"
+ARG URL="https://capnproto.org/capnproto-c++-$VERSION.$DL_FORMAT"
+ARG MAKEFLAGS=""
+RUN echo "Downloading Cap'n Proto form $URL ..."; \
+	mkdir -p "$DL_DIR" \
+	&& curl "$URL" \
+	| tar -xz -C "$DL_DIR"
+ARG CONFIGURE_FLAGS=""
+ARG CONFIGURE_CMD="./configure \$CONFIGURE_FLAGS"
+RUN echo "Configuring Cap'n Proto source ($CONFIGURE_CMD)..." \
+	&& cd "$DL_DIR" && if [ `ls | wc -l` == 1 ]; then cd `ls`; fi \
+	&& eval "$CONFIGURE_CMD"
+ARG BUILD_FLAGS="-j6"
+ARG BUILD_TARGET="check"
+ARG BUILD_CMD="make \$BUILD_FLAGS \$BUILD_TARGET"
+RUN echo "Building Cap'n Proto ($BUILD_CMD)..." \
+	&& cd "$DL_DIR" && if [ `ls | wc -l` == 1 ]; then cd `ls`; fi \
+	&& eval "$BUILD_CMD"
+ARG INSTALL_FLAGS=""
+ARG INSTALL_TARGET="install"
+ARG INSTALL_CMD="make \$INSTALL_FLAGS \$INSTALL_TARGET"
+RUN echo "Installing Cap'n Proto ($INSTALL_CMD)..." \
+	&& cd "$DL_DIR" && if [ `ls | wc -l` == 1 ]; then cd `ls`; fi \
+	&& eval "$INSTALL_CMD"
 RUN echo "Cleaning up after Cap'n Proto installation..." \
-	&& rm -rf "$CAPNPROTO_DL_DIR"
+	&& rm -rf "$DL_DIR"
