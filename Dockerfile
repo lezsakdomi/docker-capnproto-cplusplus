@@ -4,8 +4,8 @@ RUN apk add --no-cache g++
 RUN apk add --no-cache make
 RUN apk add --no-cache linux-headers
 
-ENV DL_DIR="/tmp/capnproto"
-ENV DL_FORMAT="tar.gz"
+ARG DL_DIR="/tmp/capnproto"
+ARG DL_FORMAT="tar.gz"
 #ARG REPO="capnproto/capnproto"
 #ARG REF="master"
 #ARG URL="https://codeload.github.com/$REPO/$DL_FORMAT/$REF"
